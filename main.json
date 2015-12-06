@@ -1,0 +1,8 @@
+{
+	"myLibs": [
+        "ace-builds/ace.js",
+		"cfg.js",
+		"cfg.css"
+	]
+}
+

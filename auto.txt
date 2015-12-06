@@ -1,0 +1,99 @@
+{
+    alias cbx_invoker {
+        bind Q {
+            dota_ability_execute 0;
+            dota_ability_execute 0;
+            dota_ability_execute 0;
+        };
+        bind W {
+            dota_ability_execute 1;
+            dota_ability_execute 1;
+            dota_ability_execute 1;
+        };
+        bind E {
+            dota_ability_execute 2;
+            dota_ability_execute 2;
+            dota_ability_execute 2;
+        };
+        keydown T {
+            dota_ability_execute 2;
+            dota_ability_execute 2;
+            dota_ability_execute 2;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown Y {
+            dota_ability_execute 0;
+            dota_ability_execute 0;
+            dota_ability_execute 0;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown D {
+            dota_ability_execute 2;
+            dota_ability_execute 2;
+            dota_ability_execute 1;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown F {
+            dota_ability_execute 2;
+            dota_ability_execute 2;
+            dota_ability_execute 0;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown G {
+            dota_ability_execute 0;
+            dota_ability_execute 0;
+            dota_ability_execute 2;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown Z {
+            dota_ability_execute 1;
+            dota_ability_execute 1;
+            dota_ability_execute 2;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown X {
+            dota_ability_execute 1;
+            dota_ability_execute 1;
+            dota_ability_execute 0;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown C {
+            dota_ability_execute 1;
+            dota_ability_execute 1;
+            dota_ability_execute 1;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown V {
+            dota_ability_execute 0;
+            dota_ability_execute 0;
+            dota_ability_execute 1;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+        keydown B {
+            dota_ability_execute 0;
+            dota_ability_execute 1;
+            dota_ability_execute 2;
+            dota_ability_execute 5;
+        } {
+            dota_ability_quickcast 3;
+        };
+    };
+}

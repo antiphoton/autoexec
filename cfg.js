@@ -40,6 +40,8 @@ $((function() {
         else {
             this.isRoot=false;
         }
+        this.declare=true;
+        this.execute=true;
         this.list=[];
         this.name=NameLib.apply();
         var a;
@@ -61,10 +63,16 @@ $((function() {
             this.name=NameLib.apply();
             this.begin=s.begin;
             this.end=s.end;
+            this.atRoot=s.atRoot;
+            this.declare=s.declare;
+            this.execute=s.execute;
             this.list=[];
             return ;
         }
         this.begin=begin;
+        this.declare=true;
+        this.execute=true;
+        this.atRoot=false;
         this.list=[];
         this.name=NameLib.apply();
         var a;
@@ -98,9 +106,7 @@ $((function() {
             a=['alias ',x.name,' "'];
             for (i=0;i<x.list.length;i++) {
                 print(stdout,x.list[i]);
-                if (x.list[i].noprint) {
-                }
-                else {
+                if (x.list[i].execute) {
                     a.push(x.list[i].name);
                     a.push('; ');
                 }
@@ -117,7 +123,7 @@ $((function() {
                 a=[];
             }
             else {
-                a=['alias',x.name];
+                a=['alias ',x.name,' "'];
             }
             for (i=0;i<x.list.length;i++) {
                 if (typeof(x.list[i])==='string') {
@@ -127,11 +133,15 @@ $((function() {
                     print(stdout,x.list[i]);
                     a.push(x.list[i].name);
                 }
+                a.push(' ');
             }
-            if (x.noprint) {
+            if (x.atRoot) {
             }
             else {
-                stdout.push(a.join(' '));
+                a.push(';"');
+            }
+            if (x.declare) {
+                stdout.push(a.join(''));
             }
         }
     };
@@ -159,23 +169,74 @@ $((function() {
                 };
                 if (x.list[0]==='keydown') {
                     r=[new Statement(x),new Statement(x)];
-                    r[0].list.push('bind');
-                    r[1].list.push('');
-                    r[1].noprint=true;
+                    r[0].list.push('');
+                    r[1].list.push('bind');
+                    r[0].declare=false;
+                    r[0].execute=false;
                     r[0].list.push(x.list[1]);
                     r[1].list.push(x.list[1]);
-                    r[0].list.push(x.list[2]);
-                    r[1].list.push(x.list[3]);
-                    r[0].list[2].name='+'+r[0].list[2].name;
-                    r[1].list[2].name='-'+r[0].list[2].name.substring(1);
+                    r[0].list.push(x.list[3]);
+                    r[1].list.push(x.list[2]);
+                    r[0].list[2].name='-'+r[0].list[2].name;
+                    r[1].list[2].name='+'+r[0].list[2].name.substring(1);
                     return r;
                 }
             }
+        };
+        var replace=(function() {
+            var libStack;
+            var f=function(x) {
+                var a;
+                var r;
+                var i,j;
+                var pushed;
+                if (x instanceof Statement) {
+                    if (x.list[0]==='func') {
+                        libStack.push([x.list[1],x.name]);
+                        x.list.shift();
+                        x.list.shift();
+                        x.execute=false;
+                        pushed=1;
+                    }
+                    else {
+                        pushed=0;
+                    }
+                    for (i=0;i<x.list.length;i++) {
+                        if (typeof(x.list[i])==='string') {
+                            for (j=libStack.length-1;j>=0;j--) {
+                                if (libStack[j][0]===x.list[i]) {
+                                    x.list[i]=libStack[j][1];
+                                    break;
+                                }
+                            }
+                        }
+                        f(x.list[i]);
+                    }
+                    return pushed;
+                }
+                if (x instanceof Block) {
+                    pushed=0;
+                    for (i=0;i<x.list.length;i++) {
+                        r=f(x.list[i]);
+                        pushed+=r;
+                    }
+                    for (i=0;i<pushed;i++) {
+                        libStack.pop();
+                    }
+                }
+            };
+            return function(x) {
+                libStack=[];
+                f(x);
+            };
+        })();
+        var merge=function() {
         };
         return function(codeSrc) {
             NameLib.reset();
             root=new Block(codeSrc,0,true);
             expand(root);
+            replace(root);
             var stdout=[];
             print(stdout,root);
             return stdout.join('\n');

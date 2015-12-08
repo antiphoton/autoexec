@@ -1,99 +1,114 @@
 {
+    unbindall;
+    bind \ toggleconsole;
+    bind F8 exec test;
+    bind KP_MULTIPLY {say -refresh;};
+    keydown F1 {
+        dota_camera_set_lookatpos -2270 1780;
+    }
+    {
+        +dota_camera_follow;
+        -dota_camera_follow;
+        +dota_camera_follow;
+        -dota_camera_follow;
+    };
+    keydown F2 {
+        dota_camera_set_lookatpos 2990 -2470;
+    }
+    {
+        +dota_camera_follow;
+        -dota_camera_follow;
+        +dota_camera_follow;
+        -dota_camera_follow;
+    };
+    bind ENTER say;
+
+    bind SPACE {dota_select_all;dota_select_all;};
+    bind ` dota_select_courier;
+
+    bind S dota_stop;
+    bind A mc_attack;
+
+    bind Q dota_ability_quickcast 0;
+    bind W dota_ability_quickcast 1;
+    bind E dota_ability_quickcast 2;
+    bind R dota_ability_quickcast 5;
+
+    bind 1 {
+        dota_item_quick_cast 0;
+        dota_item_execute 0;
+        dota_item_execute 0;
+    };
+    bind 2 {
+        dota_item_quick_cast 1;
+        dota_item_execute 1;
+        dota_item_execute 1;
+    };
+    bind 3 {
+        dota_item_quick_cast 2;
+        dota_item_execute 2;
+        dota_item_execute 2;
+    };
+    bind 4 {
+        dota_item_quick_cast 3;
+        dota_item_execute 3;
+        dota_item_execute 3;
+    };
+    bind 5 {
+        dota_item_quick_cast 4;
+        dota_item_execute 4;
+        dota_item_execute 4;
+    };
+    bind 6 {
+        dota_item_quick_cast 5;
+        dota_item_execute 5;
+        dota_item_execute 5;
+    };
+
+    func alphabetakeys {
+        bind D dota_ability_quickcast 3;
+        bind F dota_ability_quickcast 4;
+        bind T dota_purchase_stickybuy;
+        bind G dota_purchase_quickbuy;
+        bind X {dota_stop;mc_attack;};
+    };
+    alphabetakeys;
+
+    dota_camera_disable_zoom 1;
+    dota_settings_quick_target_attack 1;
+    dota_player_units_auto_attack  0;
+    dota_player_units_auto_attack_after_spell  0;
+    dota_player_teleport_requires_halt 1;
+    dota_health_hurt_delay 0;
+    dota_health_hurt_decay_time_min 0;
+    dota_health_hurt_decay_time_max 0;
+    dota_minimap_always_draw_hero_icons 1;
+    dota_minimap_disable_rightclick 0;
+    dota_minimap_misclick_time 0;
+
     alias cbx_invoker {
-        bind Q {
-            dota_ability_execute 0;
-            dota_ability_execute 0;
-            dota_ability_execute 0;
-        };
-        bind W {
-            dota_ability_execute 1;
-            dota_ability_execute 1;
-            dota_ability_execute 1;
-        };
-        bind E {
-            dota_ability_execute 2;
-            dota_ability_execute 2;
-            dota_ability_execute 2;
-        };
-        keydown T {
-            dota_ability_execute 2;
-            dota_ability_execute 2;
-            dota_ability_execute 2;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown Y {
-            dota_ability_execute 0;
-            dota_ability_execute 0;
-            dota_ability_execute 0;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown D {
-            dota_ability_execute 2;
-            dota_ability_execute 2;
-            dota_ability_execute 1;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown F {
-            dota_ability_execute 2;
-            dota_ability_execute 2;
-            dota_ability_execute 0;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown G {
-            dota_ability_execute 0;
-            dota_ability_execute 0;
-            dota_ability_execute 2;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown Z {
-            dota_ability_execute 1;
-            dota_ability_execute 1;
-            dota_ability_execute 2;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown X {
-            dota_ability_execute 1;
-            dota_ability_execute 1;
-            dota_ability_execute 0;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown C {
-            dota_ability_execute 1;
-            dota_ability_execute 1;
-            dota_ability_execute 1;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown V {
-            dota_ability_execute 0;
-            dota_ability_execute 0;
-            dota_ability_execute 1;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
-        };
-        keydown B {
-            dota_ability_execute 0;
-            dota_ability_execute 1;
-            dota_ability_execute 2;
-            dota_ability_execute 5;
-        } {
-            dota_ability_quickcast 3;
+        func q {dota_ability_execute 0;};
+        func w {dota_ability_execute 1;};
+        func e {dota_ability_execute 2;};
+        func r {dota_ability_execute 5;};
+        bind Q {q;q;q;};
+        bind W {w;w;w;};
+        bind E {e;e;e;};
+        keydown SPACE {
+            bind D {e;e;w;r;};
+            bind F {e;e;q;r;};
+            bind T {e;e;e;r;};
+            bind Y {q;q;q;r;};
+            bind V {q;q;w;r;};
+            bind G {q;q;e;r;};
+            bind Z {w;w;e;r;};
+            bind X {w;w;q;r;};
+            bind C {w;w;w;r;};
+            bind B {q;w;e;r;};
+        }
+        {
+            alphabetakeys;
         };
     };
 }
+

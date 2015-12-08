@@ -17,11 +17,13 @@ $((function() {
             reset:reset
         };
     })();
-    var ErrorChar=function(i) {
-        this.pos=i;
-    };
-    var ErrorBracket=function(i) {
-        this.pos=i;
+    var CompileError=function(begin,end,message) {
+        var doc=editorSrc.session.getDocument();
+        begin=doc.indexToPosition(begin);
+        end=doc.indexToPosition(end);
+        var range={start:begin,end:end};
+        editorSrc.session.getSelection().setSelectionRange(range);
+        editorDst.setValue(message);
     };
     var findRegFrom=function(s,r,i) {
         r.lastIndex=i;
@@ -46,8 +48,12 @@ $((function() {
         this.name=NameLib.apply();
         var a;
         var i=begin+1;
+        var lastI;
         while (1) {
             i=findRegFrom(s,/\S/g,i);
+            if (i===-1) {
+                throw new CompileError(begin,begin+1,"Left bracket not matched");
+            }
             if (s[i]==='}') {
                 break;
             };
@@ -77,8 +83,13 @@ $((function() {
         this.name=NameLib.apply();
         var a;
         var i=begin,j;
+        var lastI;
         while (1) {
+            lastI=i;
             i=findRegFrom(s,/\S/g,i);
+            if (i===-1) {
+                throw new CompileError(lastI,i,'Missing ";"');
+            }
             if (s[i]===';') {
                 break;
             }
@@ -88,14 +99,14 @@ $((function() {
                 i=a.end;
                 continue;
             }
-            if (/\w/.test(s[i])) {
-                j=findRegFrom(s,/\W/g,i);
+            if (/[^\s;\{\}]/.test(s[i])) {
+                j=findRegFrom(s,/[\s;\{\}]/g,i);
                 a=s.substring(i,j);
                 this.list.push(a);
                 i=j;
                 continue;
             }
-            throw new ErrorChar(i);
+            throw new CompileError(lastI,i,'Missing ";"');
         }
         this.end=i+1;
     };
@@ -192,10 +203,11 @@ $((function() {
                 var pushed;
                 if (x instanceof Statement) {
                     if (x.list[0]==='func') {
-                        libStack.push([x.list[1],x.name]);
+                        libStack.push([x.list[1],x.list[2].name]);
                         x.list.shift();
                         x.list.shift();
                         x.execute=false;
+                        x.declare=false;
                         pushed=1;
                     }
                     else {
@@ -244,8 +256,14 @@ $((function() {
     })();
     btnCompile.click(function() {
         var s=editorSrc.getValue();
-        s=compile(s);
-        editorDst.setValue(s);
+        editorDst.setValue('');
+        try {
+            s=compile(s);
+            editorDst.setValue(s);
+        }
+        catch (e) {
+        }
+        editorDst.session.getSelection().moveCursorFileStart();
     });
     var initCtrl=function() {
         var divSrc=$('<div/>').attr('id','divSrc');
@@ -255,14 +273,15 @@ $((function() {
         divMain.append(divDst);
         editorSrc=ace.edit('divSrc');
         editorDst=ace.edit('divDst');
-        editorSrc.setTheme('ace/theme/monokai');
-        editorDst.setTheme('ace/theme/monokai');
+        editorSrc.setTheme('ace/theme/chrome');
+        editorDst.setTheme('ace/theme/chrome');
     };
     var onload=function() {
         document.title='Config Compiler';
         initCtrl();
         $.get('auto.txt',function(data) {
             editorSrc.setValue(data);
+            editorSrc.session.getSelection().moveCursorFileStart();
         });
     };
     return onload;

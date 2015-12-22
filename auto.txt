@@ -1,7 +1,7 @@
 {
     unbindall;
     bind \ toggleconsole;
-    bind F8 exec test;
+    bind F8 exec cbx;
     bind KP_MULTIPLY {say -refresh;};
     keydown F1 {
         dota_camera_set_lookatpos -2270 1780;
@@ -34,36 +34,12 @@
     bind E dota_ability_quickcast 2;
     bind R dota_ability_quickcast 5;
 
-    bind 1 {
-        dota_item_quick_cast 0;
-        dota_item_execute 0;
-        dota_item_execute 0;
-    };
-    bind 2 {
-        dota_item_quick_cast 1;
-        dota_item_execute 1;
-        dota_item_execute 1;
-    };
-    bind 3 {
-        dota_item_quick_cast 2;
-        dota_item_execute 2;
-        dota_item_execute 2;
-    };
-    bind 4 {
-        dota_item_quick_cast 3;
-        dota_item_execute 3;
-        dota_item_execute 3;
-    };
-    bind 5 {
-        dota_item_quick_cast 4;
-        dota_item_execute 4;
-        dota_item_execute 4;
-    };
-    bind 6 {
-        dota_item_quick_cast 5;
-        dota_item_execute 5;
-        dota_item_execute 5;
-    };
+    bind 1 {dota_item_quick_cast 0;};
+    bind 2 {dota_item_quick_cast 1;};
+    bind 3 {dota_item_quick_cast 2;};
+    bind 4 {dota_item_quick_cast 3;};
+    bind 5 {dota_item_quick_cast 4;};
+    bind 6 {dota_item_quick_cast 5;};
 
     func alphabetakeys {
         bind D dota_ability_quickcast 3;
@@ -71,6 +47,13 @@
         bind T dota_purchase_stickybuy;
         bind G dota_purchase_quickbuy;
         bind X {dota_stop;mc_attack;};
+        bind Z {
+            +dota_camera_follow;
+            -dota_camera_follow;
+            +dota_camera_follow;
+            -dota_camera_follow;
+        };
+        bind B +chatwheel;
     };
     alphabetakeys;
 
@@ -79,12 +62,22 @@
     dota_player_units_auto_attack  0;
     dota_player_units_auto_attack_after_spell  0;
     dota_player_teleport_requires_halt 1;
+    dota_player_auto_repeat_right_mouse 1;
     dota_health_hurt_delay 0;
     dota_health_hurt_decay_time_min 0;
     dota_health_hurt_decay_time_max 0;
     dota_minimap_always_draw_hero_icons 1;
     dota_minimap_disable_rightclick 0;
     dota_minimap_misclick_time 0;
+    chat_wheel_phrase_0 21;
+    chat_wheel_phrase_1 69;
+    chat_wheel_phrase_2 22;
+    chat_wheel_phrase_3 6;
+    chat_wheel_phrase_4 8;
+    chat_wheel_phrase_5 17;
+    chat_wheel_phrase_6 1;
+    chat_wheel_phrase_7 70;
+
 
     alias cbx_invoker {
         func q {dota_ability_execute 0;};
@@ -109,6 +102,12 @@
         {
             alphabetakeys;
         };
+    };
+
+    alias cbx_arc {
+        dota_player_units_auto_attack  0;
+        dota_player_units_auto_attack_after_spell  0;
+        bind x {dota_select_all_others;};
     };
 }
 

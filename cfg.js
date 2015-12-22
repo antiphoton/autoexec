@@ -48,7 +48,6 @@ $((function() {
         this.name=NameLib.apply();
         var a;
         var i=begin+1;
-        var lastI;
         while (1) {
             i=findRegFrom(s,/\S/g,i);
             if (i===-1) {
